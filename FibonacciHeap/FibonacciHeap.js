@@ -112,17 +112,18 @@
   }
   return z;
 }; FibonacciHeap.prototype.decreaseKey = function(node, newKey) {
-  if (this._compare(newKey, node.key) > 0 && !!newKey) {
+  var _del = typeof newKey === "undefined";
+  if (this._compare(newKey, node.key) > 0 && !_del) {
     console.log("Некорректное значение нового ключа");
     return null;
   }
   node.key = newKey;
   var parent = node.parent;
-  if (parent && (this._compare(parent.key, node.key) > 0 || !newKey)) {
+  if (parent && (this._compare(parent.key, node.key) > 0 || _del)) {
     cut(this._min, node, parent, this._compare);
     cascadingCut(this._min, parent, this._compare);
   }
-  if (this._compare(this._min.key, node.key) > 0 || !newKey) {
+  if (this._compare(this._min.key, node.key) > 0 || _del) {
     this._min = node;
   }
 }; FibonacciHeap.prototype.delete      = function(node) {
